@@ -365,17 +365,17 @@
       /* end card */
       #end-logo {
         position: absolute;
-        top: 300px;
+        top: 250px;
         left: 90px;
-        width: 900px;
+        width: 860px;
       }
       #end-head {
         position: absolute;
-        top: 620px;
+        top: 520px;
         left: 90px;
         right: 90px;
         font-weight: 900;
-        font-size: 112px;
+        font-size: 96px;
         line-height: 0.98;
         letter-spacing: -0.035em;
         color: #fff;
@@ -384,34 +384,59 @@
         font-style: normal;
         color: var(--orange);
       }
+      #end-mc {
+        position: absolute;
+        top: 880px;
+        left: 90px;
+        right: 90px;
+        padding-top: 34px;
+        border-top: 4px solid var(--orange);
+      }
+      #end-mc .kicker {
+        font-weight: 700;
+        font-size: 34px;
+        letter-spacing: 0.16em;
+        color: var(--cream);
+      }
+      #end-mc .title {
+        margin-top: 8px;
+        font-weight: 900;
+        font-size: 82px;
+        line-height: 0.98;
+        letter-spacing: -0.03em;
+        color: #fff;
+      }
       #end-cta {
         position: absolute;
-        top: 1130px;
+        top: 1170px;
         left: 90px;
         background: var(--orange);
         color: #fff;
         font-weight: 900;
-        font-size: 44px;
-        line-height: 1.12;
-        padding: 26px 40px 30px;
+        font-size: 46px;
+        padding: 24px 40px 28px;
         border-radius: 18px;
       }
       #end-meta {
         position: absolute;
-        top: 1600px;
+        top: 1340px;
         left: 90px;
         right: 90px;
-        color: var(--navy);
       }
       #end-meta .clinics {
         font-weight: 700;
-        font-size: 36px;
+        font-size: 38px;
+        line-height: 1.3;
+        color: var(--cream);
       }
       #end-meta .handle {
-        margin-top: 10px;
+        margin-top: 12px;
         font-weight: 900;
         font-size: 44px;
-        color: #d4512a;
+        color: var(--orange);
+      }
+      #s-end .cream-wedge {
+        top: 1700px;
       }
     </style>
   </head>
@@ -420,7 +445,7 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="26"
+      data-duration="28"
       data-width="1080"
       data-height="1920"
     >
@@ -535,15 +560,20 @@
       </section>
 
       <!-- ===== End card ===== -->
-      <section id="s-end" class="clip" data-start="22.6" data-duration="3.4" data-track-index="5">
+      <section id="s-end" class="clip" data-start="22.6" data-duration="5.4" data-track-index="5">
         <div class="panel">
           <div class="orange-wedge" data-layout-allow-overflow></div>
           <div class="cream-wedge" data-layout-allow-overflow></div>
           <img id="end-logo" src="assets/alpha-logo.png" alt="Alpha Sports Medicine" />
           <div id="end-head">DON'T TRAIN ON <em>HOPES &amp; PRAYERS.</em></div>
-          <div id="end-cta">BOOK A FREE 15-MIN<br />PHONE CONSULT</div>
+          <div id="end-mc">
+            <div class="kicker">JOIN OUR</div>
+            <div class="title">FREE HYROX MASTERCLASS</div>
+          </div>
+          <div id="end-cta">SIGN UP — LINK IN BIO →</div>
           <div id="end-meta">
-            <div class="clinics">Newport · Ascot Vale · Bacchus Marsh</div>
+            <div class="clinics">Newport · Ascot Vale</div>
+            <div class="clinics">Bacchus Marsh · Hawthorn</div>
             <div class="handle">@alphasportsmed</div>
           </div>
         </div>
@@ -631,13 +661,14 @@
       tl.fromTo("#s-end .panel", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 22.6);
       tl.fromTo("#end-logo", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, 22.65);
       pop("#end-head", 22.9, { y: 60 });
-      pop("#end-cta", 23.6, { scale: 0.7 });
-      tl.fromTo("#end-cta", { scale: 1 }, { scale: 1.05, duration: 0.4, yoyo: true, repeat: 3, ease: "sine.inOut" }, 24.1);
-      pop("#end-meta", 24.0);
-      tl.fromTo("#s-end .cream-wedge", { y: 0 }, { y: -40, duration: 3.4, ease: "sine.inOut" }, 22.6);
-      tl.fromTo("#s-end .orange-wedge", { x: 0 }, { x: -50, duration: 3.4, ease: "sine.inOut" }, 22.6);
+      tl.fromTo("#end-mc", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 23.7);
+      pop("#end-cta", 24.2, { scale: 0.7 });
+      tl.fromTo("#end-cta", { scale: 1 }, { scale: 1.05, duration: 0.4, yoyo: true, repeat: 5, ease: "sine.inOut" }, 24.7);
+      pop("#end-meta", 24.6);
+      tl.fromTo("#s-end .cream-wedge", { y: 0 }, { y: -40, duration: 5.4, ease: "sine.inOut" }, 22.6);
+      tl.fromTo("#s-end .orange-wedge", { x: 0 }, { x: -50, duration: 5.4, ease: "sine.inOut" }, 22.6);
 
-      tl.to({}, { duration: 26 }, 0);
+      tl.to({}, { duration: 28 }, 0);
       window.__timelines["main"] = tl;
     </script>
   </body>
