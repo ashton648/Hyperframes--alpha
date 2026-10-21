@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "preferences": {
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "compare-the-pair"
+      ],
+      "updated_at": "2026-10-21T02:51:41.057Z"
+    },
+    "storyboard": {
+      "value": "yes",
+      "confirmed_in": [
+        "compare-the-pair"
+      ],
+      "updated_at": "2026-10-21T02:51:41.120Z"
+    },
+    "voice": {
+      "value": "kokoro",
+      "confirmed_in": [
+        "compare-the-pair"
+      ],
+      "updated_at": "2026-10-21T02:51:41.200Z"
+    }
+  },
+  "sightings": {}
+}
