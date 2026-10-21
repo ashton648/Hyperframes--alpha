@@ -219,13 +219,13 @@
       }
       #bubble {
         top: 330px;
-        left: 70px;
+        left: 150px;
         font-size: 58px;
       }
       #bubble::after {
         content: "";
         position: absolute;
-        left: 120px;
+        left: 200px;
         bottom: -38px;
         border-left: 26px solid transparent;
         border-right: 26px solid transparent;
@@ -248,7 +248,7 @@
       }
       #stamp span {
         display: block;
-        color: var(--orange);
+        color: #d15228;
         background: rgba(255, 255, 255, 0.94);
         border: 10px solid var(--orange);
         border-radius: 16px;
@@ -411,7 +411,7 @@
         margin-top: 10px;
         font-weight: 900;
         font-size: 44px;
-        color: var(--orange);
+        color: #d4512a;
       }
     </style>
   </head>
@@ -420,30 +420,30 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="27"
+      data-duration="26"
       data-width="1080"
       data-height="1920"
     >
       <!-- ===== Picture ===== -->
       <div id="footage-wrap" class="media-wrap">
-        <div id="footage-inner" class="media-inner">
+        <div id="footage-inner" class="media-inner" data-layout-allow-overflow>
           <video id="footage" class="clip" src="assets/skierg.mp4" playsinline muted data-start="0" data-duration="16.9" data-track-index="0"></video>
         </div>
       </div>
       <section id="freeze-clip" class="clip" data-start="16.9" data-duration="1.9" data-track-index="1">
-        <div id="freeze-inner" class="media-inner">
+        <div id="freeze-inner" class="media-inner" data-layout-allow-overflow>
           <img id="freeze" src="assets/will-freeze.jpg" alt="" />
         </div>
       </section>
 
       <!-- ===== Split-screen overlays ===== -->
-      <section id="s-dim-right" class="clip" data-start="6.5" data-duration="2.5" data-track-index="2">
+      <section id="s-dim-right" class="clip" data-start="6.5" data-duration="2.25" data-track-index="2">
         <div class="dim right"></div>
       </section>
-      <section id="s-dim-left" class="clip" data-start="9" data-duration="4" data-track-index="2">
+      <section id="s-dim-left" class="clip" data-start="8.75" data-duration="4.55" data-track-index="2">
         <div class="dim left"></div>
       </section>
-      <section id="s-split" class="clip" data-start="0" data-duration="13" data-track-index="3">
+      <section id="s-split" class="clip" data-start="0" data-duration="13.3" data-track-index="3">
         <div id="divider"></div>
         <div class="name-tag left"><span id="tag-will">WILL</span></div>
         <div class="name-tag right"><span id="tag-ash">ASHTON</span></div>
@@ -457,7 +457,7 @@
         </div>
       </section>
 
-      <section id="s-will" class="clip" data-start="6.5" data-duration="2.5" data-track-index="4">
+      <section id="s-will" class="clip" data-start="6.5" data-duration="2.25" data-track-index="4">
         <div class="cards left">
           <div class="card" id="w-1">
             <div class="txt"><div class="lbl">NIGGLES</div><div class="val">“IT'LL COME GOOD”</div></div>
@@ -474,7 +474,7 @@
         </div>
       </section>
 
-      <section id="s-ash" class="clip" data-start="9" data-duration="4" data-track-index="4">
+      <section id="s-ash" class="clip" data-start="8.75" data-duration="4.55" data-track-index="4">
         <div class="cards right">
           <div class="card" id="a-1">
             <div class="txt"><div class="lbl">NIGGLES</div><div class="val">SORTED EARLY</div></div>
@@ -492,7 +492,7 @@
       </section>
 
       <!-- ===== Payoff ===== -->
-      <section id="s-next" class="clip" data-start="13" data-duration="1.6" data-track-index="4">
+      <section id="s-next" class="clip" data-start="13.3" data-duration="1.6" data-track-index="4">
         <div id="next-chip" class="chip">NEXT STATION <b>→</b></div>
       </section>
       <section id="s-fine" class="clip" data-start="16.9" data-duration="1.9" data-track-index="4">
@@ -503,8 +503,8 @@
       <!-- ===== Scorecard ===== -->
       <section id="s-score" class="clip" data-start="18.8" data-duration="3.8" data-track-index="5">
         <div class="panel">
-          <div class="orange-wedge"></div>
-          <div class="cream-wedge"></div>
+          <div class="orange-wedge" data-layout-allow-overflow></div>
+          <div class="cream-wedge" data-layout-allow-overflow></div>
           <div id="score-head">
             <h2>SAME AGE. SAME TRAINING.</h2>
             <p>VERY DIFFERENT RESULTS.</p>
@@ -535,10 +535,10 @@
       </section>
 
       <!-- ===== End card ===== -->
-      <section id="s-end" class="clip" data-start="22.6" data-duration="4.4" data-track-index="5">
+      <section id="s-end" class="clip" data-start="22.6" data-duration="3.4" data-track-index="5">
         <div class="panel">
-          <div class="orange-wedge"></div>
-          <div class="cream-wedge"></div>
+          <div class="orange-wedge" data-layout-allow-overflow></div>
+          <div class="cream-wedge" data-layout-allow-overflow></div>
           <img id="end-logo" src="assets/alpha-logo.png" alt="Alpha Sports Medicine" />
           <div id="end-head">DON'T TRAIN ON <em>HOPES &amp; PRAYERS.</em></div>
           <div id="end-cta">BOOK A FREE 15-MIN<br />PHONE CONSULT</div>
@@ -550,30 +550,94 @@
       </section>
 
       <!-- ===== Captions ===== -->
-      <div id="cap-1" class="clip cap" data-start="0.3" data-duration="2.3" data-track-index="6"><span>Meet Will. And Ashton.</span></div>
+      <div id="cap-1" class="clip cap" data-start="0.3" data-duration="2.3" data-track-index="6"><span>Meet Will and Ashton.</span></div>
       <div id="cap-2" class="clip cap" data-start="2.6" data-duration="3.9" data-track-index="6"><span>Same age. Same gym. Same Hyrox program.</span></div>
-      <div id="cap-3" class="clip cap" data-start="6.5" data-duration="2.5" data-track-index="6"><span>Will? Running on hopes and prayers.</span></div>
-      <div id="cap-4" class="clip cap" data-start="9" data-duration="4" data-track-index="6"><span>Ashton sorted the niggles early, and trains the stabilisers.</span></div>
-      <div id="cap-5" class="clip cap" data-start="13" data-duration="2.3" data-track-index="6"><span>Ashton's off to the next station.</span></div>
-      <div id="cap-6" class="clip cap" data-start="15.3" data-duration="1.6" data-track-index="6"><span>Will says it's fine.</span></div>
+      <div id="cap-3" class="clip cap" data-start="6.5" data-duration="2.25" data-track-index="6"><span>Will? Running on hopes and prayers.</span></div>
+      <div id="cap-4" class="clip cap" data-start="8.75" data-duration="4.55" data-track-index="6"><span>Ashton sorted the niggles early, training the stabilisers.</span></div>
+      <div id="cap-5" class="clip cap" data-start="13.3" data-duration="2.05" data-track-index="6"><span>Ashton's off to the next station.</span></div>
+      <div id="cap-6" class="clip cap" data-start="15.35" data-duration="1.55" data-track-index="6"><span>Will says it's fine.</span></div>
 
       <!-- ===== Voiceover ===== -->
-      <audio id="vo-1" src="assets/vo/vo1.wav" data-start="0.4" data-duration="1.9" data-track-index="7"></audio>
-      <audio id="vo-2" src="assets/vo/vo2.wav" data-start="2.7" data-duration="3.7" data-track-index="7"></audio>
-      <audio id="vo-3" src="assets/vo/vo3.wav" data-start="6.6" data-duration="2.2" data-track-index="7"></audio>
-      <audio id="vo-4" src="assets/vo/vo4.wav" data-start="9.0" data-duration="4.2" data-track-index="7"></audio>
-      <audio id="vo-5" src="assets/vo/vo5.wav" data-start="13.2" data-duration="2.3" data-track-index="7"></audio>
-      <audio id="vo-6" src="assets/vo/vo6.wav" data-start="15.4" data-duration="1.5" data-track-index="7"></audio>
-      <audio id="vo-7" src="assets/vo/vo7.wav" data-start="17.3" data-duration="1.4" data-track-index="7"></audio>
-      <audio id="vo-8" src="assets/vo/vo8.wav" data-start="19.0" data-duration="3.6" data-track-index="7"></audio>
-      <audio id="vo-9" src="assets/vo/vo9.wav" data-start="22.9" data-duration="3.8" data-track-index="7"></audio>
+      <audio id="vo-1" src="assets/vo-ashton/l1.wav" data-start="0.35" data-duration="1.6" data-track-index="7"></audio>
+      <audio id="vo-2" src="assets/vo-ashton/l2.wav" data-start="2.7" data-duration="3.63" data-track-index="8"></audio>
+      <audio id="vo-3" src="assets/vo-ashton/l3.wav" data-start="6.5" data-duration="1.98" data-track-index="7"></audio>
+      <audio id="vo-4" src="assets/vo-ashton/l4.wav" data-start="8.75" data-duration="4.5" data-track-index="8"></audio>
+      <audio id="vo-5" src="assets/vo-ashton/l5.wav" data-start="13.35" data-duration="1.97" data-track-index="7"></audio>
+      <audio id="vo-6" src="assets/vo-ashton/l6.wav" data-start="15.4" data-duration="1.46" data-track-index="8"></audio>
+      <audio id="vo-7" src="assets/vo-ashton/l7.wav" data-start="17.15" data-duration="1.46" data-track-index="7"></audio>
+      <audio id="vo-8" src="assets/vo-ashton/l8.wav" data-start="19.0" data-duration="3.3" data-track-index="8"></audio>
+      <audio id="vo-9" src="assets/vo-ashton/l9.wav" data-start="22.9" data-duration="1.45" data-track-index="7"></audio>
     </div>
     <script>
-      // Posed layout for the storyboard pass — motion lands after the board is approved.
       const tl = gsap.timeline({ paused: true });
-      // Freeze-frame punch-in on Will's grin (face at ~480, 870).
-      tl.set("#freeze-inner", { scale: 1.6, transformOrigin: "44% 45%" }, 0);
-      tl.to({}, { duration: 27 }, 0);
+      const pop = (sel, at, from = {}) =>
+        tl.fromTo(sel, { opacity: 0, y: 24, ...from }, { opacity: 1, y: 0, x: 0, scale: 1, rotation: 0, duration: 0.32, ease: "back.out(1.8)" }, at);
+
+      // Captions pop in with their line
+      [["#cap-1", 0.3], ["#cap-2", 2.6], ["#cap-3", 6.5], ["#cap-4", 8.75], ["#cap-5", 13.3], ["#cap-6", 15.35]].forEach(([id, at]) =>
+        tl.fromTo(`${id} span`, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, at)
+      );
+
+      // 1 — Meet the pair: divider draws down, name tags drop in
+      tl.fromTo("#divider", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.6, ease: "power3.inOut" }, 0.05);
+      pop("#tag-will", 0.4, { y: -40, rotation: -4 });
+      pop("#tag-ash", 1.0, { y: -40, rotation: 4 });
+
+      // 2 — Same everything: chips land on each spoken word
+      pop("#same-1", 2.75, { scale: 0.7 });
+      pop("#same-2", 3.95, { scale: 0.7 });
+      pop("#same-3", 5.1, { scale: 0.7 });
+
+      // 3 — Will spotlit: Ashton's half dims, cards slide in from the left edge
+      tl.fromTo("#s-dim-right .dim", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 6.5);
+      ["#w-1", "#w-2", "#w-3"].forEach((id, i) => {
+        tl.fromTo(id, { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 6.6 + i * 0.32);
+        tl.fromTo(`${id} .mark`, { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.35, ease: "back.out(2.5)" }, 6.85 + i * 0.32);
+      });
+
+      // 4 — Ashton spotlit: Will's half dims, cards slide in from the right edge
+      tl.fromTo("#s-dim-left .dim", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 8.75);
+      ["#a-1", "#a-2", "#a-3"].forEach((id, i) => {
+        tl.fromTo(id, { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 8.85 + i * 0.45);
+        tl.fromTo(`${id} .mark`, { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2.5)" }, 9.1 + i * 0.45);
+      });
+
+      // 5 — Next station: chip slides in, arrow nudges toward the exit
+      tl.fromTo("#next-chip", { opacity: 0, x: 120 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, 13.35);
+      tl.fromTo("#next-chip b", { x: 0 }, { x: 10, duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 5 }, 13.7);
+
+      // 6 — Slow push-in on Will walking to camera
+      tl.fromTo("#footage-inner", { scale: 1, transformOrigin: "44% 52%" }, { scale: 1.18, duration: 2.3, ease: "none" }, 14.6);
+
+      // 7 — Freeze: punch in on the grin, bubble, then the stamp slams
+      tl.fromTo("#freeze-inner", { scale: 1.18, transformOrigin: "44% 45%" }, { scale: 1.6, duration: 0.28, ease: "expo.out" }, 16.9);
+      pop("#bubble", 16.95, { scale: 0.6, y: 20 });
+      tl.fromTo("#stamp span", { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.22, ease: "power4.in" }, 17.25);
+      tl.fromTo("#freeze-inner", { x: 0 }, { x: 12, duration: 0.05, yoyo: true, repeat: 3, ease: "none" }, 17.47);
+
+      // 8 — Scorecard: panel rises, rows tick in with the voice
+      tl.fromTo("#s-score .panel", { yPercent: 100 }, { yPercent: 0, duration: 0.45, ease: "power3.out" }, 18.8);
+      pop("#score-head h2", 19.05);
+      pop("#score-head p", 21.0, { scale: 0.8 });
+      tl.fromTo("#s-score .row.head .c", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, stagger: 0.12, ease: "back.out(2)" }, 19.2);
+      ["#r-1", "#r-2", "#r-3"].forEach((id, i) => {
+        tl.fromTo(id, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 19.55 + i * 0.4);
+        tl.fromTo(`${id} .c`, { scale: 0 }, { scale: 1, duration: 0.3, stagger: 0.12, ease: "back.out(2.5)" }, 19.7 + i * 0.4);
+      });
+      tl.fromTo("#s-score .cream-wedge", { y: 0 }, { y: -30, duration: 3.8, ease: "sine.inOut" }, 18.8);
+      tl.fromTo("#s-score .orange-wedge", { x: 0 }, { x: -40, duration: 3.8, ease: "sine.inOut" }, 18.8);
+
+      // 9 — End card
+      tl.fromTo("#s-end .panel", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 22.6);
+      tl.fromTo("#end-logo", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, 22.65);
+      pop("#end-head", 22.9, { y: 60 });
+      pop("#end-cta", 23.6, { scale: 0.7 });
+      tl.fromTo("#end-cta", { scale: 1 }, { scale: 1.05, duration: 0.4, yoyo: true, repeat: 3, ease: "sine.inOut" }, 24.1);
+      pop("#end-meta", 24.0);
+      tl.fromTo("#s-end .cream-wedge", { y: 0 }, { y: -40, duration: 3.4, ease: "sine.inOut" }, 22.6);
+      tl.fromTo("#s-end .orange-wedge", { x: 0 }, { x: -50, duration: 3.4, ease: "sine.inOut" }, 22.6);
+
+      tl.to({}, { duration: 26 }, 0);
       window.__timelines["main"] = tl;
     </script>
   </body>
