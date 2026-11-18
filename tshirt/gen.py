@@ -48,31 +48,35 @@ def squiggle(x0, x1, cy):
 CAP = 0.70  # Fredoka cap height as a fraction of font size
 
 def layout():
-    l1, l2, l3 = "CONNECTED ISSUES,", "CONNECTIVE TISSUES", "ALPHA SPORTS MEDICINE"
-    s1, s2, s3 = 1000 / width(l1, 1), 1000 / width(l2, 1), 34
-    b1 = 130 + CAP * s1 + 15            # top line baseline
-    cy = b1 + 84                        # squiggle centre, tucked right under the words
-    b2 = cy + 76 + CAP * s2             # bottom line sits just under the squiggle
-    b3 = b2 + 95                        # small brand line
-    return (l1, s1, b1), cy, (l2, s2, b2), (l3, s3, b3), b3 + 115
+    size = 900 / width("CONNECTIVE", 1)        # one size for all four words
+    cap, lead = CAP * size, 0.30 * size
+    b1 = 130 + cap + 15                         # CONNECTED
+    b2 = b1 + lead + cap                        # ISSUES,
+    cy = b2 + 84                                # squiggle, tucked under the words
+    b3 = cy + 76 + cap                          # CONNECTIVE
+    b4 = b3 + lead + cap                        # TISSUES
+    b5 = b4 + 105                               # brand line
+    return size, (b1, b2), cy, (b3, b4), b5, b5 + 125
 
 def build(fg, bg):
-    (l1, s1, b1), cy, (l2, s2, b2), (l3, s3, b3), h = layout()
+    size, (b1, b2), cy, (b3, b4), b5, h = layout()
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {h:.0f}" width="{W}" height="{h:.0f}">']
     if bg:
         o.append(f'<rect width="100%" height="100%" fill="{bg}"/>')
     blue = LBLUE if fg == "#FFFFFF" else BLUE
-    # wonky, bouncy top line
-    o.append(text_paths(l1, 600, b1, s1, lambda i, c: blue, wobble=1.0, seed=7))
+    # wonky, bouncy top words
+    o.append(text_paths("CONNECTED", 600, b1, size, lambda i, c: blue, wobble=1.0, seed=7))
+    o.append(text_paths("ISSUES,", 600, b2, size, lambda i, c: blue, wobble=1.0, seed=3))
     # tangle -> smooth line, ending in a little dot
-    d = squiggle(150, 1020, cy)
+    d = squiggle(170, 1000, cy)
     x_end, y_end = (float(v) for v in d.rsplit(' L', 1)[1].split(','))
     o.append(f'<path d="{d}" fill="none" stroke="{ORANGE}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>')
     o.append(f'<circle cx="{x_end + 30:.1f}" cy="{y_end:.1f}" r="13" fill="{ORANGE}"/>')
-    # calm, tidy bottom line
-    o.append(text_paths(l2, 600, b2, s2, lambda i, c: fg))
+    # calm, tidy bottom words
+    o.append(text_paths("CONNECTIVE", 600, b3, size, lambda i, c: fg))
+    o.append(text_paths("TISSUES", 600, b4, size, lambda i, c: fg))
     # small brand line, letter-spaced
-    o.append(text_paths(l3, 600, b3, s3, lambda i, c: blue, tracking=0.18))
+    o.append(text_paths("ALPHA SPORTS MEDICINE", 600, b5, 34, lambda i, c: blue, tracking=0.18))
     o.append('</svg>')
     return "\n".join(o)
 

@@ -1,6 +1,6 @@
 const { chromium } = require('playwright');
 (async () => {
-  const b = await chromium.launch(); const p = await b.newPage({viewport:{width:1200,height:657}, deviceScaleFactor:2});
+  const b = await chromium.launch(); const p = await b.newPage({viewport:{width:1200,height:1028}, deviceScaleFactor:2});
   for (const n of ['navy','white']) {
     await p.goto('file://' + process.cwd() + `/_prev_${n}.svg`);
     await p.screenshot({path:`preview-${n}.png`});
