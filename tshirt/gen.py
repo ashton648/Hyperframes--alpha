@@ -6,7 +6,10 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 
 W = 1200
-NAVY, BLUE, LBLUE, ORANGE = "#0B2545", "#1F6FD1", "#5AB0FF", "#F7801E"
+NAVY, BLUE, LBLUE, ORANGE = "#0B2545", "#1F6FD1", "#5AB0FF", "#F25F2D"
+_sw = open("alpha-swish.path").read().split("\n", 1)
+SWISH_W, SWISH_H = (float(v) for v in _sw[0].split())
+SWISH_D = _sw[1]                                  # traced from the Alpha Sports Medicine logo
 font = TTFont("fonts/rubik-latin-800-normal.woff2")
 gs, cmap, UPM = font.getGlyphSet(), font.getBestCmap(), font["head"].unitsPerEm
 
@@ -55,8 +58,8 @@ def layout():
     cy = b2 + 96                                # squiggle, tucked under the words
     b3 = cy + 80 + cap                          # CONNECTIVE
     b4 = b3 + lead + cap                        # TISSUES
-    b5 = b4 + 105                               # brand line
-    return size, (b1, b2), cy, (b3, b4), b5, b5 + 125
+    b5 = b4 + 140                               # logo lockup (text baseline)
+    return size, (b1, b2), cy, (b3, b4), b5, b5 + 130
 
 def build(fg, bg):
     size, (b1, b2), cy, (b3, b4), b5, h = layout()
@@ -75,8 +78,17 @@ def build(fg, bg):
     # calm, tidy bottom words
     o.append(text_paths("CONNECTIVE", 600, b3, size, lambda i, c: fg))
     o.append(text_paths("TISSUES", 600, b4, size, lambda i, c: fg))
-    # small brand line, letter-spaced
-    o.append(text_paths("ALPHA SPORTS MEDICINE", 600, b5, 34, lambda i, c: blue, tracking=0.18))
+    # logo lockup: alpha swish + letter-spaced name, centred as one unit
+    name, ts, tr = "ALPHA SPORTS MEDICINE", 38, 0.18
+    sh = 96                                       # swish height
+    sc = sh / SWISH_H
+    sw, gap, tw = SWISH_W * sc, 26, width(name, ts, tr)
+    x0 = 600 - (sw + gap + tw) / 2
+    cap = CAP * ts
+    sy = b5 - cap / 2 - sh / 2                    # swish centred on the text
+    o.append(f'<path d="{SWISH_D}" fill="{ORANGE}" fill-rule="evenodd" '
+             f'transform="translate({x0:.1f} {sy:.1f}) scale({sc:.5f})"/>')
+    o.append(text_paths(name, x0 + sw + gap + tw / 2, b5, ts, lambda i, c: fg, tracking=tr))
     o.append('</svg>')
     return "\n".join(o)
 
