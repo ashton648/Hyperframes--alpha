@@ -48,6 +48,7 @@ def squiggle(x0, x1, cy):
         pts.append((x, y))
     return "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
 
+SWISH_SIZE = 130  # height of the alpha swish
 CAP = font["OS/2"].sCapHeight / UPM  # cap height as a fraction of font size
 
 def layout():
@@ -58,8 +59,8 @@ def layout():
     cy = b2 + 96                                # squiggle, tucked under the words
     b3 = cy + 80 + cap                          # CONNECTIVE
     b4 = b3 + lead + cap                        # TISSUES
-    b5 = b4 + 140                               # logo lockup (text baseline)
-    return size, (b1, b2), cy, (b3, b4), b5, b5 + 130
+    b5 = b4 + 75                                # top of the alpha swish
+    return size, (b1, b2), cy, (b3, b4), b5, b5 + SWISH_SIZE + 120
 
 def build(fg, bg):
     size, (b1, b2), cy, (b3, b4), b5, h = layout()
@@ -78,17 +79,10 @@ def build(fg, bg):
     # calm, tidy bottom words
     o.append(text_paths("CONNECTIVE", 600, b3, size, lambda i, c: fg))
     o.append(text_paths("TISSUES", 600, b4, size, lambda i, c: fg))
-    # logo lockup: alpha swish + letter-spaced name, centred as one unit
-    name, ts, tr = "ALPHA SPORTS MEDICINE", 38, 0.18
-    sh = 96                                       # swish height
-    sc = sh / SWISH_H
-    sw, gap, tw = SWISH_W * sc, 26, width(name, ts, tr)
-    x0 = 600 - (sw + gap + tw) / 2
-    cap = CAP * ts
-    sy = b5 - cap / 2 - sh / 2                    # swish centred on the text
+    # alpha swish from the logo, centred under the slogan
+    sc = SWISH_SIZE / SWISH_H
     o.append(f'<path d="{SWISH_D}" fill="{ORANGE}" fill-rule="evenodd" '
-             f'transform="translate({x0:.1f} {sy:.1f}) scale({sc:.5f})"/>')
-    o.append(text_paths(name, x0 + sw + gap + tw / 2, b5, ts, lambda i, c: fg, tracking=tr))
+             f'transform="translate({600 - SWISH_W * sc / 2:.1f} {b5:.1f}) scale({sc:.5f})"/>')
     o.append('</svg>')
     return "\n".join(o)
 
