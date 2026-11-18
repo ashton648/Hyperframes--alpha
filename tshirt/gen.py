@@ -1,5 +1,5 @@
 """Alpha Sports Medicine back print: 'connected issues, connective tissues'.
-Text is converted to vector outlines (Fredoka SemiBold, OFL) so the SVGs are print-ready."""
+Text is converted to vector outlines (Rubik ExtraBold, OFL) so the SVGs are print-ready."""
 import math, random
 from fontTools.ttLib import TTFont
 from fontTools.pens.svgPathPen import SVGPathPen
@@ -7,7 +7,7 @@ from fontTools.pens.transformPen import TransformPen
 
 W = 1200
 NAVY, BLUE, LBLUE, ORANGE = "#0B2545", "#1F6FD1", "#5AB0FF", "#F7801E"
-font = TTFont("fonts/fredoka-latin-600-normal.woff2")
+font = TTFont("fonts/rubik-latin-800-normal.woff2")
 gs, cmap, UPM = font.getGlyphSet(), font.getBestCmap(), font["head"].unitsPerEm
 
 def width(text, size, tracking=0.0):
@@ -45,15 +45,15 @@ def squiggle(x0, x1, cy):
         pts.append((x, y))
     return "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
 
-CAP = 0.70  # Fredoka cap height as a fraction of font size
+CAP = font["OS/2"].sCapHeight / UPM  # cap height as a fraction of font size
 
 def layout():
     size = 900 / width("CONNECTIVE", 1)        # one size for all four words
     cap, lead = CAP * size, 0.30 * size
     b1 = 130 + cap + 15                         # CONNECTED
     b2 = b1 + lead + cap                        # ISSUES,
-    cy = b2 + 84                                # squiggle, tucked under the words
-    b3 = cy + 76 + cap                          # CONNECTIVE
+    cy = b2 + 96                                # squiggle, tucked under the words
+    b3 = cy + 80 + cap                          # CONNECTIVE
     b4 = b3 + lead + cap                        # TISSUES
     b5 = b4 + 105                               # brand line
     return size, (b1, b2), cy, (b3, b4), b5, b5 + 125
