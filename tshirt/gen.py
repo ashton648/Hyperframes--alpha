@@ -1,72 +1,76 @@
-import math
-W, H = 1200, 1430
-NAVY, BLUE, LBLUE, ORANGE = "#0B2545", "#1F6FD1", "#5AB0FF", "#F7801E"
+"""Alpha Sports Medicine back print: 'connected issues, connective tissues'.
+Text is converted to vector outlines (Fredoka SemiBold, OFL) so the SVGs are print-ready."""
+import math, random
+from fontTools.ttLib import TTFont
+from fontTools.pens.svgPathPen import SVGPathPen
+from fontTools.pens.transformPen import TransformPen
 
-def strand(i, n, x0, x1, cy, phase, amp, spread_end, spread_mid, crimp_k):
-    pts = []
-    steps = 240
-    off = (i - (n-1)/2) / ((n-1)/2)  # -1..1
-    for s in range(steps+1):
-        x = x0 + (x1-x0)*s/steps
-        t = (x - (x0+x1)/2) / ((x1-x0)/2)          # -1..1
-        spread = spread_mid + (spread_end-spread_mid)*(t*t)
-        a = amp * (0.35 + 0.65*t*t)                 # crimp relaxes at the pinch
-        y = cy + off*spread + a*math.sin(crimp_k*x/100 + phase + i*0.55)
+W, H = 1200, 1020
+NAVY, BLUE, LBLUE, ORANGE = "#0B2545", "#1F6FD1", "#5AB0FF", "#F7801E"
+font = TTFont("fonts/fredoka-latin-600-normal.woff2")
+gs, cmap, UPM = font.getGlyphSet(), font.getBestCmap(), font["head"].unitsPerEm
+
+def width(text, size):
+    return sum(gs[cmap[ord(c)]].width for c in text) * size / UPM
+
+def text_paths(text, cx, baseline, size, colours, wobble=0.0, seed=1):
+    """One <path> per glyph; wobble adds a playful bounce/tilt to each letter."""
+    rnd = random.Random(seed)
+    s = size / UPM
+    x = cx - width(text, size) / 2
+    out = []
+    for i, c in enumerate(text):
+        g = gs[cmap[ord(c)]]
+        dy = wobble * 14 * math.sin(i * 1.3) + rnd.uniform(-1, 1) * wobble * 6
+        rot = rnd.uniform(-1, 1) * wobble * 9
+        if c != " ":
+            pen = SVGPathPen(gs)
+            g.draw(TransformPen(pen, (s, 0, 0, -s, x, baseline + dy)))
+            gx = x + g.width * s / 2
+            out.append(f'<path d="{pen.getCommands()}" fill="{colours(i, c)}" '
+                       f'transform="rotate({rot:.1f} {gx:.1f} {baseline - size*0.3:.1f})"/>')
+        x += g.width * s
+    return "\n".join(out)
+
+def squiggle(x0, x1, cy):
+    """A tangled scribble that relaxes into a calm wave: issues -> healthy tissue."""
+    pts, n = [], 1400
+    for k in range(n + 1):
+        u = k / n
+        t = u * 30 * math.pi
+        fade = max(0.0, 1 - u / 0.55) ** 1.2                 # loops shrink then vanish
+        r = 58 * fade * (0.75 + 0.25 * math.sin(t * 0.37))   # uneven loops = messy knot
+        x = x0 + (x1 - x0) * u - r * math.sin(t)
+        y = cy + r * math.cos(t) * 0.9 + 22 * math.sin(u * 3.2 * math.pi) * (0.3 + 0.7 * u)
         pts.append((x, y))
     return "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
 
-def build(fg, bg, shirt_label):
-    out = []
-    out.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">')
+def build(fg, bg):
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">']
     if bg:
-        out.append(f'<rect width="100%" height="100%" fill="{bg}"/>')
-    out.append('<style>.d{font-family:"Inter Display","Inter",sans-serif;font-weight:900;}'
-               '.s{font-family:"Inter",sans-serif;font-weight:700;letter-spacing:9px;}</style>')
-    # header
-    out.append(f'<line x1="150" y1="150" x2="295" y2="150" stroke="{ORANGE}" stroke-width="4"/>')
-    out.append(f'<line x1="905" y1="150" x2="1050" y2="150" stroke="{ORANGE}" stroke-width="4"/>')
-    out.append(f'<text class="s" x="600" y="160" font-size="28" fill="{fg}" text-anchor="middle">ALPHA SPORTS MEDICINE</text>')
-    # fibre bundle
-    cy, n = 370, 13
-    blues = [BLUE, LBLUE, fg]
-    for i in range(n):
-        d = strand(i, n, 110, 1090, cy, 0.0, 14, 125, 16, 3.2)
-        col = blues[i % 3]
-        op = 0.95 if col != fg else 0.55
-        out.append(f'<path d="{d}" fill="none" stroke="{col}" stroke-opacity="{op}" stroke-width="5" stroke-linecap="round"/>')
-    # orange strand weaving across the bundle
-    pts = []
-    for s in range(301):
-        x = 110 + 980*s/300
-        t = (x-600)/490
-        spread = 16 + 108*t*t
-        y = cy + spread*math.sin(x/62) + 6*math.sin(x/9)
-        pts.append((x, y))
-    d = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
-    out.append(f'<path d="{d}" fill="none" stroke="{bg or NAVY}" stroke-width="16" stroke-linecap="round"/>')
-    out.append(f'<path d="{d}" fill="none" stroke="{ORANGE}" stroke-width="8" stroke-linecap="round"/>')
-    # junction node at the pinch
-    out.append(f'<circle cx="600" cy="{cy}" r="34" fill="{bg or NAVY}" stroke="{ORANGE}" stroke-width="7"/>')
-    out.append(f'<circle cx="600" cy="{cy}" r="13" fill="{ORANGE}"/>')
-    for x in (160, 1040):
-        out.append(f'<circle cx="{x}" cy="{cy}" r="7" fill="{ORANGE}"/>')
-    # typography: outlined "issues" -> solid "tissues"
-    o = f'fill="none" stroke="{LBLUE if fg == '#FFFFFF' else BLUE}" stroke-width="4"'
-    lines = [("CONNECTED", 631.25, "out"), ("ISSUES,", 393.9, "out"), ("CONNECTIVE", 663.28, "solid"), ("TISSUES", 432.97, "solid")]
-    y, gaps = 590, [0, 38, 80, 38]
-    for (w, m, style), g in zip(lines, gaps):
-        fs = 980/m*100
-        y += g + 0.727*fs
-        attrs = o if style == "out" else f'fill="{fg}"'
-        txt = w
-        if w == "CONNECTIVE": txt = f'CONNECT<tspan fill="{ORANGE}">IVE</tspan>'
-        if w == "TISSUES": txt = f'<tspan fill="{ORANGE}">T</tspan>ISSUES'
-        out.append(f'<text class="d" x="600" y="{y:.0f}" font-size="{fs:.1f}" text-anchor="middle" {attrs}>{txt}</text>')
-    out.append(f'<line x1="540" y1="{y+55:.0f}" x2="660" y2="{y+55:.0f}" stroke="{ORANGE}" stroke-width="6" stroke-linecap="round"/>')
-    out.append('</svg>')
-    return "\n".join(out)
+        o.append(f'<rect width="100%" height="100%" fill="{bg}"/>')
+    blue = LBLUE if bg != "#FFFFFF" and fg == "#FFFFFF" else BLUE
+    # wonky, slightly jumbled top line
+    l1 = "connected issues,"
+    o.append(text_paths(l1, 600, 260, 1000 / width(l1, 1), lambda i, c: blue, wobble=1.0, seed=7))
+    # tangle -> smooth line, ending in a little dot
+    d = squiggle(170, 1030, 450)
+    x_end, y_end = (float(v) for v in d.rsplit(' L', 1)[1].split(','))
+    x_end += 30
+    o.append(f'<path d="{d}" fill="none" stroke="{ORANGE}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>')
+    o.append(f'<circle cx="{x_end:.1f}" cy="{y_end:.1f}" r="13" fill="{ORANGE}"/>')
+    # calm, tidy bottom line with the orange "t"
+    l2 = "connective tissues"
+    o.append(text_paths(l2, 600, 700, 1000 / width(l2, 1),
+                        lambda i, c: ORANGE if i == l2.index("t", 11) else fg, wobble=0.0))
+    # small brand line
+    l3 = "alpha sports medicine"
+    o.append(text_paths(l3, 600, 880, 46, lambda i, c: blue))
+    o.append('</svg>')
+    return "\n".join(o)
 
-open("back-print-navy-shirt.svg", "w").write(build("#FFFFFF", None, "navy"))
-open("back-print-white-shirt.svg", "w").write(build(NAVY, None, "white"))
-open("_prev_navy.svg", "w").write(build("#FFFFFF", NAVY, "navy"))
-open("_prev_white.svg", "w").write(build(NAVY, "#FFFFFF", "white"))
+if __name__ == "__main__":
+    open("back-print-navy-shirt.svg", "w").write(build("#FFFFFF", None))
+    open("back-print-white-shirt.svg", "w").write(build(NAVY, None))
+    open("_prev_navy.svg", "w").write(build("#FFFFFF", NAVY))
+    open("_prev_white.svg", "w").write(build(NAVY, "#FFFFFF"))
